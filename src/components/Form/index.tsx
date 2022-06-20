@@ -1,11 +1,25 @@
 import React from "react";
+import { ITarefa } from "../../types/tarefa";
 import Buttom from "../Button";
+import style from './Form.module.scss';
 
-class Form extends React.Component {
+class Form extends React.Component <{
+    setTarefas: React.Dispatch<React.SetStateAction<ITarefa[]>>
+}> {
+    state = {
+        tarefa: "",
+        tempo: "00:00:00",
+    }
+
+    adicionarTarefa(evento: React.FormEvent<HTMLFormElement>) {
+        evento.preventDefault();
+        this.props.setTarefas(tarefasAntigas => [...tarefasAntigas, {...this.state}]);
+    }
+
     render() {
         return (
-            <form>
-                <div>
+            <form className={style.novaTarefa} onSubmit={this.adicionarTarefa.bind(this)}>
+                <div className={style.inputContainer}>
                     <label htmlFor="tarefa">
                         Adicione um novo estudo
                     </label>
@@ -13,11 +27,13 @@ class Form extends React.Component {
                         type="text"
                         name="tarefa"
                         id="tarefa"
-                        placeholder="O que você deseja estudar"
+                        value={this.state.tarefa}
+                        onChange={evento => this.setState({...this.state, tarefa: evento.target.value})}
+                        placeholder="O que você quer estudar"
                         required>       
                     </input>
                 </div>
-                <div>
+                <div className={style.inputContainer}>
                 <label htmlFor="tarefa">
                         Tempo
                     </label>
@@ -25,13 +41,17 @@ class Form extends React.Component {
                         type="time"
                         step="1"
                         name="tempo"
+                        value={this.state.tempo}
+                        onChange={evento => this.setState({...this.state, tempo: evento.target.value})}
                         id="tempo"
                         min="00:00:00"
                         max="01:30:00"
                         required>       
                     </input>
                 </div>
-                <Buttom/>
+                <Buttom type="submit"
+                    texto="Adicionar"
+                />
             </form>
         )
     }
