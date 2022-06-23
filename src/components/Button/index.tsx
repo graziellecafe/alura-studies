@@ -4,11 +4,10 @@ import style from './Button.module.scss'
 interface Props {
     type?: "button" | "submit" | "reset" | undefined,
     texto: string,
-    onClick?: () => void,
-    children?: React.ReactNode
+    onClick?: () => void
   }
   
-  function Button({ onClick, texto, type, children }: Props) {
+  function Button({ onClick, texto, type }: Props) {
     return (
       <button
         onClick={onClick}
